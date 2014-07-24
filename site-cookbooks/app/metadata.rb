@@ -6,8 +6,8 @@ version           "1.0.0"
 
 recipe "app", "Main entry point for installing and configuring a dead-simple LAMP stack"
 
-depends "apache"
 depends "dotdeb"
+depends "nginx"
 depends "php"
 depends "apt"
 depends "openssl"
