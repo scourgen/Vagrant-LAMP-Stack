@@ -50,7 +50,8 @@ Vagrant.configure("2") do |config|
 
 
   # Set share folder
-  config.vm.synced_folder "./public" , "/var/www/" + project_name + "/",  :nfs => true
+  #config.vm.synced_folder "./public" , "/var/www/" + project_name + "/",  :nfs => true
+  config.vm.synced_folder "./public" , "/var/www/" + project_name + "/",  :nfs => true, :mount_options => ['actimeo=2']
 
   config.vm.provision :shell, :inline => "sed -i 's#us.archive.ubuntu.com#mirrors.163.com#' /etc/apt/sources.list "
   config.vm.provision :shell, :inline => "echo \"Asia/Shanghai\" | sudo tee /etc/timezone && dpkg-reconfigure --frontend noninteractive tzdata"
@@ -69,6 +70,7 @@ Vagrant.configure("2") do |config|
   # by modifying the host machines hosts file
   config.hostmanager.enabled = true
   config.hostmanager.manage_host = true
+  
   config.vm.define project_name do |node|
     node.vm.hostname = project_name + ".local"
     node.vm.network :private_network, ip: ip_address
@@ -132,6 +134,9 @@ Vagrant.configure("2") do |config|
 
               # It is necessary to specify a custom conf dir as we are using Apache 2.4
               :ext_conf_dir            => "/etc/php5/mods-available"
+      },
+      :apt => {
+        "compiletime" => true
       },
       'versions' => versions
     }
